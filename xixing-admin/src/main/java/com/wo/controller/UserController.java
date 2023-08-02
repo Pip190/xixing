@@ -1,5 +1,6 @@
 package com.wo.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.wo.domain.User;
 import com.wo.service.UserService;
 import com.wo.utils.R;
@@ -58,5 +59,13 @@ public class UserController {
     @DeleteMapping("{id}")
     public R<User> removeUser(@PathVariable Long id){
         return userService.deleteByPrimaryKey(id);
+    }
+
+    @GetMapping()
+    public R<PageInfo<User>> listUser(@RequestParam(defaultValue = "1") int pageNum,
+                                      @RequestParam(defaultValue = "4") int pageSize,
+                                      String orderBy,String sortBy,
+                                      String username){
+        return userService.listAll(pageNum,pageSize,orderBy,sortBy,username);
     }
 }

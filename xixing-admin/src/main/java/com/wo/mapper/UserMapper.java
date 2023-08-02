@@ -3,6 +3,8 @@ package com.wo.mapper;
 import com.wo.domain.User;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
 * @author Wo
 * @description 针对表【user(用户表)】的数据库操作Mapper
@@ -23,4 +25,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
+    List<User> listAll(String username);
+
+    List<String> listDatabaseColumnName();
 }

@@ -2,6 +2,9 @@ package com.wo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.util.StrUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wo.domain.User;
 import com.wo.service.UserService;
 import com.wo.mapper.UserMapper;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,7 +33,6 @@ public class UserServiceImpl implements UserService{
         }
         return R.noContent("删除失败");
     }
-
     @Override
     public R<User> insert(User record) {
         int insert = this.userMapper.insert(record);
@@ -83,6 +86,21 @@ public class UserServiceImpl implements UserService{
             }
         }
         return R.noContent("修改失败");
+    }
+
+    @Override
+    public R<PageInfo<User>> listAll(int pageNum, int pageSize,String orderBy,String sortBy,String username) {
+        String underlineCase = StrUtil.toUnderlineCase(orderBy);
+        List<String> listDatabaseColumnName= userMapper.listDatabaseColumnName();
+        if (listDatabaseColumnName.contains(underlineCase)) {
+            PageHelper.startPage(pageNum, pageSize);
+            PageHelper.orderBy(underlineCase+" "+sortBy);
+            List<User> userVoList=userMapper.listAll(username);
+            PageInfo<User> pageInfo=new PageInfo<>(userVoList);
+            return R.ok("成功",pageInfo);
+        } else {
+            return R.noContent("对不起，您的排序字段名有误！");
+        }
     }
 
 }

@@ -73,6 +73,16 @@ public class R<T> {
         return create(204,message,null);
     }
     /**
+     * 资源已经不存在。
+     * @param message 响应消息
+     * @param data 响应数据
+     * @return 204状态码
+     * @param <T> 泛型
+     */
+    public static <T> R<T> noContent(String message,T data){
+        return create(204,message,data);
+    }
+    /**
      * 服务器不理解客户端的请求，未做任何处理。
      * @param message 响应消息
      * @return 400状态码

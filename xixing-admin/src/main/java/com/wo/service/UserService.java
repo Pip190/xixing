@@ -1,8 +1,11 @@
 package com.wo.service;
 
 
+import com.github.pagehelper.PageInfo;
 import com.wo.domain.User;
 import com.wo.utils.R;
+
+import java.util.List;
 
 /**
 * @author Wo
@@ -21,5 +24,7 @@ public interface UserService {
     R<User> updateByPrimaryKeySelective(Long id, User record);
 
     R<User> updateByPrimaryKey(Long id, User record);
+
+    R<PageInfo<User>> listAll(int pageNum, int pageSize,String orderBy,String sortBy,String username);
 
 }
