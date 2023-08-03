@@ -18,7 +18,7 @@ class XixingAdminApplicationTests {
     }
     @Test
     void contextLoads1() {
-        R<PageInfo<User>> pageInfoR = userService.listAll(1, 10,null,null,"高");
+        R<PageInfo<User>> pageInfoR = userService.listAll(1, 10,null,null,null);
         System.out.println(pageInfoR);
     }
 

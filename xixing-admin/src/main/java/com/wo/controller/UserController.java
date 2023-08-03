@@ -64,7 +64,7 @@ public class UserController {
     @GetMapping()
     public R<PageInfo<User>> listUser(@RequestParam(defaultValue = "1") int pageNum,
                                       @RequestParam(defaultValue = "4") int pageSize,
-                                      String orderBy,String sortBy,
+                                      @RequestParam(defaultValue = "id") String orderBy,String sortBy,
                                       String username){
         return userService.listAll(pageNum,pageSize,orderBy,sortBy,username);
     }
