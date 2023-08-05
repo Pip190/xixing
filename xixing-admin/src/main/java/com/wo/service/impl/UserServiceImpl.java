@@ -2,6 +2,7 @@ package com.wo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -98,8 +99,14 @@ public class UserServiceImpl implements UserService{
             List<User> userVoList=userMapper.listAll(username);
             PageInfo<User> pageInfo=new PageInfo<>(userVoList);
             return R.ok("成功",pageInfo);
-        } else {
-            return R.noContent("对不起，您的排序字段名有误！");
+        } else if(ObjectUtil.isAllEmpty(orderBy,sortBy)) {
+            PageHelper.startPage(pageNum, pageSize);
+            List<User> userVoList=userMapper.listAll(username);
+            PageInfo<User> pageInfo=new PageInfo<>(userVoList);
+            return R.ok("查询成功",pageInfo);
+        }else {
+                return R.noContent("对不起，您的排序字段名有误！");
+
         }
     }
 
