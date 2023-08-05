@@ -93,21 +93,30 @@ public class UserServiceImpl implements UserService{
     public R<PageInfo<User>> listAll(int pageNum, int pageSize,String orderBy,String sortBy,String username) {
         String underlineCase = StrUtil.toUnderlineCase(orderBy);
         List<String> listDatabaseColumnName= userMapper.listDatabaseColumnName();
-        if (listDatabaseColumnName.contains(underlineCase)) {
-            PageHelper.startPage(pageNum, pageSize);
-            PageHelper.orderBy(underlineCase+" "+sortBy);
-            List<User> userVoList=userMapper.listAll(username);
-            PageInfo<User> pageInfo=new PageInfo<>(userVoList);
-            return R.ok("成功",pageInfo);
-        } else if(ObjectUtil.isAllEmpty(orderBy,sortBy)) {
-            PageHelper.startPage(pageNum, pageSize);
-            List<User> userVoList=userMapper.listAll(username);
-            PageInfo<User> pageInfo=new PageInfo<>(userVoList);
-            return R.ok("查询成功",pageInfo);
+        if (ObjectUtil.isEmpty(orderBy)){
+            PageInfo<User> userPageInfo = getUserPageInfo(pageNum, pageSize, username);
+            return R.ok("成功",userPageInfo);
         }else {
+            if (listDatabaseColumnName.contains(underlineCase)) {
+                if (ObjectUtil.isEmpty(sortBy)){
+                    PageHelper.orderBy(orderBy);
+                }else if("ASC".equalsIgnoreCase(sortBy) || "DESC".equalsIgnoreCase(sortBy)){
+                    PageHelper.orderBy(orderBy+" "+sortBy);
+                }else {
+                    return R.noContent("排序方式有误，应为ASC或者DESC");
+                }
+                PageInfo<User> pageInfo = getUserPageInfo(pageNum, pageSize, username);
+                return R.ok("成功",pageInfo);
+            } else {
                 return R.noContent("对不起，您的排序字段名有误！");
-
+            }
         }
+    }
+
+    private PageInfo<User> getUserPageInfo(int pageNum, int pageSize, String username) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> userVoList=userMapper.listAll(username);
+        return new PageInfo<>(userVoList);
     }
 
 }
