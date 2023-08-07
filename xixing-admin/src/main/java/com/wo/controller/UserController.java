@@ -7,6 +7,7 @@ import com.wo.utils.R;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * @author Wo
@@ -35,7 +36,7 @@ public class UserController {
      * @return 成功或失败
      */
     @PostMapping
-    public R<User> saveUser(@RequestBody User user){
+    public R<User> saveUser(@RequestBody @Valid User user){
         return userService.insert(user);
     }
 

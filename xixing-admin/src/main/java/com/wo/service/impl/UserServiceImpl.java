@@ -98,11 +98,7 @@ public class UserServiceImpl implements UserService{
             return R.ok("成功",userPageInfo);
         }else {
             if (listDatabaseColumnName.contains(underlineCase)) {
-                if (ObjectUtil.isEmpty(sortBy)){
-                    PageHelper.orderBy(orderBy);
-                }else if("ASC".equalsIgnoreCase(sortBy) || "DESC".equalsIgnoreCase(sortBy)){
-                    PageHelper.orderBy(orderBy+" "+sortBy);
-                }else {
+                if (sortingJudgment(orderBy, sortBy)) {
                     return R.noContent("排序方式有误，应为ASC或者DESC");
                 }
                 PageInfo<User> pageInfo = getUserPageInfo(pageNum, pageSize, username);
@@ -111,6 +107,17 @@ public class UserServiceImpl implements UserService{
                 return R.noContent("对不起，您的排序字段名有误！");
             }
         }
+    }
+
+    private static boolean sortingJudgment(String orderBy, String sortBy) {
+        if (ObjectUtil.isEmpty(sortBy)){
+            PageHelper.orderBy(orderBy);
+        }else if("ASC".equalsIgnoreCase(sortBy) || "DESC".equalsIgnoreCase(sortBy)){
+            PageHelper.orderBy(orderBy +" "+ sortBy);
+        }else {
+            return true;
+        }
+        return false;
     }
 
     private PageInfo<User> getUserPageInfo(int pageNum, int pageSize, String username) {

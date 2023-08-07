@@ -3,6 +3,9 @@ package com.wo.domain;
 import java.io.Serializable;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 /**
  * 用户表
  * @TableName user
@@ -32,6 +35,8 @@ public class User implements Serializable {
     /**
      * 邮箱
      */
+    @NotBlank(message = "电子邮件为必填项")
+    @Email(message = "电子邮件格式无效")
     private String email;
 
     private static final long serialVersionUID = 1L;
