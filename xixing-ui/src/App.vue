@@ -4,7 +4,6 @@ import Menu from "@/components/Menu.vue";
 
 <template>
   <header>
-    <h1>你好啊</h1>
   </header>
 
   <main>

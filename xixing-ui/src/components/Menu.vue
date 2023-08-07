@@ -1,7 +1,7 @@
 <template>
   <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-    <el-radio-button :label="false">expand</el-radio-button>
-    <el-radio-button :label="true">collapse</el-radio-button>
+    <el-radio-button :label="false">展开</el-radio-button>
+    <el-radio-button :label="true">缩回</el-radio-button>
   </el-radio-group>
   <el-menu
       default-active="2"
@@ -13,7 +13,7 @@
     <el-sub-menu index="1">
       <template #title>
         <el-icon><location /></el-icon>
-        <span>Navigator One</span>
+        <span>导航一</span>
       </template>
       <el-menu-item-group>
         <template #title><span>Group One</span></template>
